@@ -6,6 +6,7 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.reactive.function.client.WebClient
 import java.nio.file.Path
 
 @Configuration
@@ -23,4 +24,8 @@ class ApplicationConfiguration {
         val bundle: Path = astraProperties.secureConnectBundle.toPath()
         return CqlSessionBuilderCustomizer { builder: CqlSessionBuilder -> builder.withCloudSecureConnectBundle(bundle) }
     }
+
+    @Bean
+    fun webClient(webClientBuilder: WebClient.Builder): WebClient =
+        webClientBuilder.baseUrl("http://openlibrary.org/search.json").build()
 }

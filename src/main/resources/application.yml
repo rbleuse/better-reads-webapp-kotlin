@@ -1,10 +1,12 @@
 spring:
+  codec:
+    max-in-memory-size: 10MB
   data:
     cassandra:
       keyspace-name: main
       username: <username>
       password: <password>
-      schema-action: none
+      schema-action: create-if-not-exists
       request:
         timeout: 20s
       connection:
