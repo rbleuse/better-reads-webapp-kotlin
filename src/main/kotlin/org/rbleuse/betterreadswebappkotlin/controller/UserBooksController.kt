@@ -17,8 +17,8 @@ class UserBooksController
 constructor(private val userBooksRepository: UserBooksRepository) {
 
     @PostMapping("/addUserBook")
-    fun addBookToUser(@RequestBody formData: MultiValueMap<String, String>, @AuthenticationPrincipal principal: OAuth2User): ModelAndView? {
-        val login = principal.getAttribute<String>("login") ?: return null
+    fun addBookToUser(@RequestBody formData: MultiValueMap<String, String>, @AuthenticationPrincipal principal: OAuth2User?): ModelAndView? {
+        val login = principal?.getAttribute<String>("login") ?: return null
 
         val bookId = formData.getFirst("bookId")!!
         val userBook = UserBooks(

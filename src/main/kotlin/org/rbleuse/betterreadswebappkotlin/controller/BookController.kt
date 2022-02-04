@@ -18,7 +18,7 @@ class BookController
 constructor(private val bookRepository: BookRepository, private val userBooksRepository: UserBooksRepository) {
 
     @GetMapping("/books/{bookId}")
-    fun getBook(@PathVariable("bookId") bookId: String, model: Model, @AuthenticationPrincipal principal: OAuth2User): String {
+    fun getBook(@PathVariable("bookId") bookId: String, model: Model, @AuthenticationPrincipal principal: OAuth2User?): String {
         val book = bookRepository.findByIdOrNull(bookId)
         if (null != book) {
             val coverImageUrl = if (book.coverIds.isNotEmpty()) {
@@ -29,7 +29,7 @@ constructor(private val bookRepository: BookRepository, private val userBooksRep
             model.addAttribute("coverImage", coverImageUrl)
             model.addAttribute("book", book)
 
-            val loginId = principal.getAttribute<String>("login")
+            val loginId = principal?.getAttribute<String>("login")
             loginId?.let {
                 model.addAttribute("loginId", it)
                 val userBookInDb = userBooksRepository.findByIdOrNull(UserBooksPk(loginId, bookId))
